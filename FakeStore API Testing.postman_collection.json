@@ -1,0 +1,356 @@
+{
+  "info": {
+    "_postman_id": "8446e7a0-59d8-4683-8c6b-9cee519406ef",
+    "name": "FakeStore API Testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52727093",
+    "_collection_link": "https://go.postman.co/collection/52727093-8446e7a0-59d8-4683-8c6b-9cee519406ef?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "{{base_url}}/products",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is under 1500ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1500);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has data\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.length).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Each item has id\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    jsonData.forEach(function(item) {\r",
+              "        pm.expect(item.id).to.exist;\r",
+              "    });\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "{{base_url}}/products/1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is under 1500ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1500);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is an object\", function () {\r",
+              "    var data = pm.response.json();\r",
+              "    pm.expect(data).to.be.an(\"object\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Product has required fields\", function () {\r",
+              "    var data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"id\");\r",
+              "    pm.expect(data).to.have.property(\"title\");\r",
+              "    pm.expect(data).to.have.property(\"price\");\r",
+              "    pm.expect(data).to.have.property(\"category\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "{{base_url}}/products",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 or 201\", function () {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is OK\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is object\", function () {\r",
+              "    var data = pm.response.json();\r",
+              "    pm.expect(data).to.be.an(\"object\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"ID is generated\", function () {\r",
+              "    var data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"id\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Title exists\", function () {\r",
+              "    var data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"title\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"id\": 21,\r\n  \"title\": \"new added test product\",\r\n  \"price\": 100,\r\n  \"description\": \"demo\",\r\n  \"image\": \"img.png\",\r\n  \"category\": \"electronics\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/products",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "{{base_url}}/products/2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 or 201\", function () {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is object\", function () {\r",
+              "    var data = pm.response.json();\r",
+              "    pm.expect(data).to.be.an(\"object\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"ID exists\", function () {\r",
+              "    var data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"id\");\r",
+              "});\r",
+              "\r",
+              "\r",
+              "pm.test(\"Title updated\", function () {\r",
+              "    var data = pm.response.json();\r",
+              "    pm.expect(data.title).to.eql(\"updated product 2\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"updated product 2\",\r\n  \"price\": 150,\r\n  \"description\": \"this is updated product\",\r\n  \"image\": \"https://i.pravatar.cc\",\r\n  \"category\": \"electronics\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/products/2",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "{{base_url}}/products/2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is object\", function () {\r",
+              "    var data = pm.response.json();\r",
+              "    pm.expect(data).to.be.an(\"object\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"ID exists\", function () {\r",
+              "    var data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"id\");\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"patched product id 2\"\r\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/products/2",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Status code check\r",
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "// Response is object\r",
+              "pm.test(\"Response is object\", function () {\r",
+              "    var data = pm.response.json();\r",
+              "    pm.expect(data).to.be.an(\"object\");\r",
+              "});\r",
+              "\r",
+              "// ID exists\r",
+              "pm.test(\"Response has id\", function () {\r",
+              "    var data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"id\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{base_url}}/products/2",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
